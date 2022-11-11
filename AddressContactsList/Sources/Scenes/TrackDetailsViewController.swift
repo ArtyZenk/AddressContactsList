@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TrackDetailsViewController: UIViewController {
+final class TrackDetailsViewController: UIViewController {
 
     @IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var trackNameLabel: UILabel!

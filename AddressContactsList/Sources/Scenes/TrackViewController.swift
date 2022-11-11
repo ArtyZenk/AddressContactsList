@@ -7,17 +7,27 @@
 
 import UIKit
 
-class TrackViewController: UITableViewController {
+final class TrackViewController: UITableViewController {
     
-    private let trackList = Track.getTrackList()
+    private var trackList = Track.getTrackList()
     
      // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = 80
+        navigationItem.leftBarButtonItem = editButtonItem
     }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let detailsVC = segue.destination as? TrackDetailsViewController else { return }
+        detailsVC.track = sender as? Track
+    }
+}
 
-    // MARK: - UITable view data source
+// MARK: - UITable view data source
+extension TrackViewController {
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         trackList.count
     }
@@ -41,16 +51,26 @@ class TrackViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         true
     }
+}
+
+// MARK: - UITable view delegate
+extension TrackViewController {
     
-    // MARK: - UITable view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let track = trackList[indexPath.row]
         performSegue(withIdentifier: "track", sender: track)
     }
-
-    // MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let detailsVC = segue.destination as? TrackDetailsViewController else { return }
-        detailsVC.track = sender as? Track
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        .none
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        false
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let currentTrack = trackList.remove(at: sourceIndexPath.row)
+        trackList.insert(currentTrack, at: destinationIndexPath.row)
     }
 }
