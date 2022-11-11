@@ -11,6 +11,7 @@ class TrackViewController: UITableViewController {
     
     private let trackList = Track.getTrackList()
     
+     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = 80
@@ -37,14 +38,10 @@ class TrackViewController: UITableViewController {
         return cell
     }
 
-
-    /*
-    // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+        true
     }
-    */
+
 
     /*
     // Override to support editing the table view.
