@@ -17,7 +17,7 @@ class TrackViewController: UITableViewController {
         tableView.rowHeight = 80
     }
 
-    // MARK: - Table view data source
+    // MARK: - UITable view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         trackList.count
     }
@@ -41,11 +41,16 @@ class TrackViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         true
     }
+    
+    // MARK: - UITable view delegate
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let track = trackList[indexPath.row]
+        performSegue(withIdentifier: "track", sender: track)
+    }
 
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let detailsVC = segue.destination as? TrackDetailsViewController else { return }
-        guard let indexPath = tableView.indexPathForSelectedRow else { return }
-        detailsVC.track = trackList[indexPath.row]
+        detailsVC.track = sender as? Track
     }
 }
